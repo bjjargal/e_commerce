@@ -1,21 +1,73 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Review your basket and place a simulated Little Grove Market order.">
-  <title>Checkout | Little Grove Market</title><link rel="stylesheet" href="/styles.css">
-  <script type="module" src="/js/checkout.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header"><div class="header-inner"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">g</span><span>little grove<span class="brand-sub">MARKET</span></span></a><a class="text-link" href="/">← Back to the shop</a><span class="checkout-lock"><span aria-hidden="true">♡</span> Checkout</span></div></header>
-  <main class="checkout-main" id="main">
-    <div class="checkout-title"><p class="eyebrow">ALMOST YOURS</p><h1>Review your basket.</h1><p>Take one last look before placing your simulated order.</p></div>
-    <div class="checkout-layout">
-      <section class="checkout-panel" aria-labelledby="review-title"><h2 id="review-title">Your pieces</h2><div id="checkout-items" class="checkout-items"><p class="empty-basket">Loading your basket…</p></div><a class="back-link" href="/#collection">← Keep browsing</a></section>
-      <aside class="checkout-panel order-panel" aria-labelledby="order-title"><p class="eyebrow">ORDER SUMMARY</p><h2 id="order-title">The details</h2><div class="summary-row"><span>Subtotal</span><strong id="checkout-subtotal">€0.00</strong></div><div class="summary-row"><span>Shipping</span><strong>Free</strong></div><p class="shipping-note">A little thank you from us. Shipping is on the house.</p><div class="summary-total"><span>Total</span><strong id="checkout-total">€0.00</strong></div><p class="checkout-auth-note" id="checkout-auth-note"></p><p class="checkout-message" id="checkout-message" role="status"></p><button class="button button-full" id="place-order" type="button">Place my order <span aria-hidden="true">→</span></button><p class="secure-note">This coursework demo does not collect payment details.</p></aside>
-    </div>
-  </main>
-  <footer class="site-footer"><a class="footer-brand" href="/">little grove <span>MARKET</span></a><p>Small things, good days.</p><p>© 2026 Little Grove Market</p></footer>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Review your basket and place a simulated Little Grove Market order."
+    />
+    <title>Checkout | Little Grove Market</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/js/checkout.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/"
+          ><span class="brand-mark" aria-hidden="true">g</span
+          ><span>little grove<span class="brand-sub">MARKET</span></span></a
+        ><a class="text-link" href="/">← Back to the shop</a
+        ><span class="checkout-lock"
+          ><span aria-hidden="true">♡</span> Checkout</span
+        >
+      </div>
+    </header>
+    <main class="checkout-main" id="main">
+      <div class="checkout-title">
+        <p class="eyebrow">ALMOST YOURS</p>
+        <h1>Review your basket.</h1>
+        <p>Take one last look before placing your simulated order.</p>
+      </div>
+      <div class="checkout-layout">
+        <section class="checkout-panel" aria-labelledby="review-title">
+          <h2 id="review-title">Your pieces</h2>
+          <div id="checkout-items" class="checkout-items">
+            <p class="empty-basket">Loading your basket…</p>
+          </div>
+          <a class="back-link" href="/#collection">← Keep browsing</a>
+        </section>
+        <aside class="checkout-panel order-panel" aria-labelledby="order-title">
+          <p class="eyebrow">ORDER SUMMARY</p>
+          <h2 id="order-title">The details</h2>
+          <div class="summary-row">
+            <span>Subtotal</span><strong id="checkout-subtotal">€0.00</strong>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span><strong>Free</strong>
+          </div>
+          <p class="shipping-note">
+            A little thank you from us. Shipping is on the house.
+          </p>
+          <div class="summary-total">
+            <span>Total</span><strong id="checkout-total">€0.00</strong>
+          </div>
+          <p class="checkout-auth-note" id="checkout-auth-note"></p>
+          <p class="checkout-message" id="checkout-message" role="status"></p>
+          <button class="button button-full" id="place-order" type="button">
+            Place my order <span aria-hidden="true">→</span>
+          </button>
+          <p class="secure-note">
+            This coursework demo does not collect payment details.
+          </p>
+        </aside>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a class="footer-brand" href="/">little grove <span>MARKET</span></a>
+      <p>Small things, good days.</p>
+      <p>© 2026 Little Grove Market</p>
+    </footer>
+  </body>
 </html>
