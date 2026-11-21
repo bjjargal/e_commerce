@@ -4,12 +4,14 @@ Little Grove Market is a small e-commerce application for the Web Development CA
 
 ## Run the application
 
-Use Node.js 24 or newer. From this folder:
+Use Node.js 22.13 or newer. The project uses Node's built-in SQLite module. From this folder:
 
 ```sh
 npm install
 npm start
 ```
+
+For development with automatic server restarts, use `npm run dev`.
 
 Open [http://localhost:3000](http://localhost:3000). The SQLite database is created in `data/little-grove.sqlite` the first time the server starts. Five sample products are inserted automatically. To change the port or session secret, copy `.env.example` to `.env` and edit the values; `dotenv` loads that file when the server starts.
 
@@ -22,7 +24,7 @@ For a local demonstration, the server has a fallback session secret. Before depl
 - `public/checkout.html` reviews the basket and submits a simulated order.
 - `public/js/` contains browser code that calls the JSON API.
 - `server.js` defines the Express API, validation, sessions and checkout flow.
-- `database.js` creates the SQLite tables and inserts the five starter products.
+- `database.js` creates the SQLite tables and inserts the five starter products with `node:sqlite`.
 - `public/images/` contains original SVG product illustrations made for this project.
 
 Passwords are hashed with bcrypt before insertion. The browser never receives a password hash. Product and order data are stored in SQLite. Basket quantities are kept in the Express session until checkout. The checkout transaction stores the order and its item rows, then clears the basket. No payment details are collected.

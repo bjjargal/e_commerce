@@ -28,6 +28,10 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 const productById = db.prepare('SELECT id, name, description, category, price_cents AS priceCents, image FROM products WHERE id = ?');
+const allProducts = db.prepare(`
+  SELECT id, name, description, category, price_cents AS priceCents, image
+  FROM products ORDER BY id
+`);
 const userByEmail = db.prepare('SELECT id, full_name AS fullName, email, password_hash AS passwordHash FROM users WHERE email = ?');
 const userById = db.prepare('SELECT id, full_name AS fullName, email FROM users WHERE id = ?');
 const publicUser = (userId) => userById.get(userId) || null;
@@ -50,11 +54,7 @@ function cartDetails(req) {
 }
 
 app.get('/api/products', (req, res) => {
-  const products = db.prepare(`
-    SELECT id, name, description, category, price_cents AS priceCents, image
-    FROM products ORDER BY id
-  `).all();
-  res.json({ products });
+  res.json({ products: allProducts.all() });
 });
 
 app.get('/api/auth/me', (req, res) => {
@@ -63,9 +63,10 @@ app.get('/api/auth/me', (req, res) => {
 
 app.post('/api/auth/register', async (req, res, next) => {
   try {
-    const fullName = String(req.body.fullName || '').trim();
-    const email = String(req.body.email || '').trim().toLowerCase();
-    const password = String(req.body.password || '');
+    const { fullName: rawFullName, email: rawEmail, password: rawPassword } = req.body ?? {};
+    const fullName = typeof rawFullName === 'string' ? rawFullName.trim() : '';
+    const email = typeof rawEmail === 'string' ? rawEmail.trim().toLowerCase() : '';
+    const password = typeof rawPassword === 'string' ? rawPassword : '';
     if (fullName.length < 2 || fullName.length > 80) {
       return res.status(400).json({ error: 'Enter a name between 2 and 80 characters.' });
     }
@@ -75,14 +76,19 @@ app.post('/api/auth/register', async (req, res, next) => {
     if (password.length < 8 || Buffer.byteLength(password, 'utf8') > 72) {
       return res.status(400).json({ error: 'Choose a password between 8 and 72 characters.' });
     }
+    if (userByEmail.get(email)) {
+      return res.status(409).json({ error: 'An account with that email already exists.' });
+    }
 
     const passwordHash = await bcrypt.hash(password, 12);
     const result = db.prepare('INSERT INTO users (full_name, email, password_hash) VALUES (?, ?, ?)')
       .run(fullName, email, passwordHash);
     const userId = Number(result.lastInsertRowid);
+    const guestCart = req.session.cart;
     req.session.regenerate((error) => {
       if (error) return next(error);
       req.session.userId = userId;
+      if (guestCart) req.session.cart = guestCart;
       res.status(201).json({ user: publicUser(userId) });
     });
   } catch (error) {
@@ -95,14 +101,17 @@ app.post('/api/auth/register', async (req, res, next) => {
 
 app.post('/api/auth/login', async (req, res, next) => {
   try {
-    const email = String(req.body.email || '').trim().toLowerCase();
-    const password = String(req.body.password || '');
+    const { email: rawEmail, password: rawPassword } = req.body ?? {};
+    const email = typeof rawEmail === 'string' ? rawEmail.trim().toLowerCase() : '';
+    const password = typeof rawPassword === 'string' ? rawPassword : '';
     const user = userByEmail.get(email);
     const passwordMatches = user && await bcrypt.compare(password, user.passwordHash);
     if (!passwordMatches) return res.status(401).json({ error: 'Email or password is incorrect.' });
+    const guestCart = req.session.cart;
     req.session.regenerate((error) => {
       if (error) return next(error);
       req.session.userId = user.id;
+      if (guestCart) req.session.cart = guestCart;
       res.json({ user: publicUser(user.id) });
     });
   } catch (error) {
@@ -121,12 +130,28 @@ app.post('/api/auth/logout', (req, res, next) => {
 app.get('/api/cart', (req, res) => res.json(cartDetails(req)));
 
 app.post('/api/cart/items', (req, res) => {
-  const productId = Number(req.body.productId);
+  const { productId: rawProductId } = req.body ?? {};
+  const productId = Number(rawProductId);
   if (!Number.isInteger(productId) || !productById.get(productId)) {
     return res.status(400).json({ error: 'Choose a product from the catalogue.' });
   }
   const cart = req.session.cart || {};
   cart[productId] = Math.min((cart[productId] || 0) + 1, 99);
+  req.session.cart = cart;
+  res.json(cartDetails(req));
+});
+
+app.patch('/api/cart/items/:productId', (req, res) => {
+  const productId = Number(req.params.productId);
+  const { quantity } = req.body ?? {};
+  if (!Number.isInteger(productId) || !productById.get(productId)) {
+    return res.status(400).json({ error: 'Choose a product from the catalogue.' });
+  }
+  if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
+    return res.status(400).json({ error: 'Quantity must be a whole number from 1 to 99.' });
+  }
+  const cart = req.session.cart || {};
+  cart[productId] = quantity;
   req.session.cart = cart;
   res.json(cartDetails(req));
 });
@@ -162,7 +187,11 @@ app.post('/api/checkout', requireLogin, (req, res, next) => {
     req.session.cart = {};
     res.status(201).json({ orderId, totalCents, message: 'Your order is confirmed. Thanks for shopping with us.' });
   } catch (error) {
-    db.exec('ROLLBACK');
+    try {
+      db.exec('ROLLBACK');
+    } catch (rollbackError) {
+      console.error('Could not roll back the failed order transaction.', rollbackError);
+    }
     next(error);
   }
 });
@@ -172,6 +201,9 @@ app.get('/health', (req, res) => res.json({ status: 'ok' }));
 app.use((error, req, res, next) => {
   console.error(error);
   if (res.headersSent) return next(error);
+  if (error.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: 'Invalid request body.' });
+  }
   res.status(500).json({ error: 'Something went wrong. Please try again.' });
 });
 

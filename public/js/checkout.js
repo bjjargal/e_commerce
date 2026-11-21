@@ -42,6 +42,10 @@ placeOrder.addEventListener('click', async () => {
     message.textContent = 'Order placed successfully.';
     await refreshHeader();
   } catch (error) {
+    if (error.status === 401) {
+      window.location.assign('/login.html?next=checkout');
+      return;
+    }
     message.textContent = error.message;
     placeOrder.disabled = !currentCart?.items.length || !currentUser;
   }

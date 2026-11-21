@@ -102,6 +102,11 @@ h1, h2, h3, p { margin-top: 0; }
 .basket-item-copy { display: grid; gap: 4px; min-width: 0; }
 .basket-item-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
 .basket-item-copy span { color: var(--muted); }
+.basket-quantity { display: inline-flex; align-items: center; gap: 9px; margin-top: 2px; }
+.basket-quantity button { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 1px solid #ccd7ca; border-radius: 50%; background: transparent; color: var(--green-dark); cursor: pointer; font-size: 16px; }
+.basket-quantity button:hover:not(:disabled) { background: var(--green-light); }
+.basket-quantity button:disabled { opacity: .45; cursor: not-allowed; }
+.basket-quantity > span { min-width: 14px; color: var(--ink); text-align: center; font-size: 12px; }
 .basket-item > strong { font-size: 10px; }
 .remove-button { width: 20px; height: 22px; border: 0; background: transparent; color: #8b958b; cursor: pointer; font-size: 17px; }
 .basket-summary { margin: 14px 0 15px; }
@@ -193,15 +198,21 @@ h1, h2, h3, p { margin-top: 0; }
   .brand { font-size: 18px; }
   .main-nav { order: 3; width: 100%; margin: 0; gap: 20px; }
   .header-actions { gap: 12px; margin-left: auto; }
-  .header-actions > .text-link, .welcome-name { display: none; }
-  .header-actions .button { min-height: 34px; padding: 0 10px; font-size: 10px; }
-  .bag-link { font-size: 11px; }
+  .welcome-name { display: none; }
+  .header-actions .button { min-height: 38px; padding: 0 9px; font-size: 12px; }
+  .bag-link, .header-actions .text-link { font-size: 12px; }
+  .bag-count { font-size: 12px; }
+  .brand-sub { font-size: 12px; letter-spacing: 1.6px; }
+  .promise-strip p span { font-size: 12px; }
+  .eyebrow { font-size: 12px; }
+  .basket-heading .eyebrow, .order-panel .eyebrow { font-size: 12px; }
   .hero { grid-template-columns: 1fr; gap: 29px; padding: 48px 24px 25px; }
   .hero h1 { font-size: 48px; }
   .hero-art { justify-self: center; min-height: 300px; max-width: 420px; }
   .sun { width: 74px; height: 74px; }
   .promise-strip { justify-content: flex-start; gap: 23px; overflow-x: auto; padding-right: 22px; padding-left: 22px; }
-  .promise-strip p { flex: 0 0 auto; font-size: 10px; }
+  .promise-strip p { flex: 0 0 auto; font-size: 12px; }
+  .hero-note { font-size: 12px; }
   .section-wrap { padding: 57px 20px 67px; }
   .shop-layout { grid-template-columns: 1fr; gap: 38px; }
   .section-heading { align-items: start; flex-direction: column; gap: 8px; }
@@ -210,10 +221,20 @@ h1, h2, h3, p { margin-top: 0; }
   .product-grid { gap: 23px 13px; }
   .product-image-wrap { height: clamp(145px, 43vw, 220px); }
   .product-info h3 { font-size: 14px; }
-  .product-info p { min-height: 49px; font-size: 9px; }
+  .product-info p { min-height: 58px; font-size: 12px; }
   .product-buy { margin-top: 7px; }
-  .product-buy strong { font-size: 11px; }
-  .add-button { gap: 6px; padding-left: 3px; font-size: 10px; }
+  .product-buy strong { font-size: 12px; }
+  .product-category { font-size: 12px; }
+  .result-count, .filter-label, .section-subtitle { font-size: 12px; }
+  .add-button { min-height: 40px; gap: 6px; padding-left: 3px; font-size: 12px; }
+  .add-button span { width: 30px; height: 30px; }
+  .basket-item, .basket-item-copy strong, .basket-item-copy span, .basket-item > strong { font-size: 12px; }
+  .basket-quantity button { width: 34px; height: 34px; }
+  .basket-summary div, .basket-summary p, .secure-note, .status-message { font-size: 12px; }
+  .site-footer p, .footer-brand span { font-size: 12px; }
+  .auth-card label, .field-hint, .auth-switch, .auth-aside > span { font-size: 12px; }
+  .form-message { font-size: 12px; }
+  .checkout-lock, .checkout-title > p:last-child, .checkout-item p, .back-link, .shipping-note, .checkout-auth-note, .checkout-message { font-size: 12px; }
   .basket-card { position: static; margin: 0; }
   .story-band { grid-template-columns: 45px 1fr; gap: 18px; padding: 43px 23px; }
   .story-mark { width: 43px; height: 43px; font-size: 20px; }
@@ -233,7 +254,7 @@ h1, h2, h3, p { margin-top: 0; }
   .checkout-title h1 { font-size: 37px; }
   .checkout-layout { grid-template-columns: 1fr; gap: 16px; }
   .checkout-panel { padding: 19px; }
-  .checkout-lock { font-size: 10px; }
+  .checkout-lock { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
