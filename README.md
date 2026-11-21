@@ -76,5 +76,6 @@ Use your own voice in the MP4. Keep the screen recording within six minutes and 
 - Replace any course, student or personal details if your lecturer expects them in a cover page or presentation.
 - Use the official CCT assessment cover page from Moodle.
 - Add the required AI-use Word document with your exact prompts, relevant outputs and your own reflection on what you checked, accepted or changed.
-- Create your own GitHub repository, make 8–10 meaningful commits, and provide access to `tahmed1986` as the brief directs. Do not publish secrets or a real user database.
+- The local Git history currently has ten logical commits authored by OpenAI Codex. Review them before publishing and add commits for your own changes; do not present generated work as independent work.
+- Create your own GitHub repository, publish the project history, and provide access to `tahmed1986` as the brief directs. Do not publish secrets or a real user database.
 - Zip the website folder for Moodle. Save the voice-over MP4 in your Drive and submit an accessible link, as directed by the brief.
