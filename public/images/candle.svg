@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
+  <rect width="600" height="500" fill="#f2e9df"/><circle cx="125" cy="115" r="75" fill="#d9dfd0"/>
+  <ellipse cx="300" cy="411" rx="151" ry="19" fill="#e0d5c9"/><path d="M194 173h212v216c0 14-11 25-25 25H219c-14 0-25-11-25-25V173Z" fill="#d7a27a"/><ellipse cx="300" cy="174" rx="106" ry="24" fill="#f0dec8"/><ellipse cx="300" cy="176" rx="74" ry="14" fill="#eedcc8"/><path d="M300 159c-10-16 2-27 0-40 17 18 15 31 0 40Z" fill="#dc9b56"/><path d="M300 159v-11" stroke="#5f5142" stroke-width="4"/><path d="M225 215h150v128H225z" fill="#f0dfc8"/><path d="M251 255c20-28 44-28 64 0 20-28 44-28 64 0-13 40-34 59-64 74-30-15-51-34-64-74Z" fill="#82906e"/><text x="300" y="365" text-anchor="middle" fill="#80614e" font-family="Georgia,serif" font-size="14" letter-spacing="3">CEDAR + FIG</text>
+</svg>
